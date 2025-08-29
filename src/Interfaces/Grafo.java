@@ -20,4 +20,8 @@ public interface Grafo {
     boolean isNulo();
 
     boolean isCompleto();
+
+    void getListaVertices();
+
+    void getlistaArestas();
 }

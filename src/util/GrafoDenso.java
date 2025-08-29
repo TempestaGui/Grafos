@@ -98,6 +98,15 @@ public class GrafoDenso implements Grafo {
                      return false
     }
 
+    @Override
+    public void getListaVertices(){
+        ArrayList<String> listVertices = new ArrayList<>();
+        for (int i = 0; i<numVertice; i++){
+            listVertices.add(i);
+        }
+        System.out.println("lista de vertices: "+listVertices)
+    }
+
 
                 @Override
                 public void imprimir() {
