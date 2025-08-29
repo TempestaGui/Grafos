@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        //atividade 04
         String[] rotulo = {"A","B","C","D","E"};
         GrafoDenso gd = new GrafoDenso(rotulo);
         gd.adicionaArestas(0,1);
@@ -21,6 +22,7 @@ public class Main {
         gd.removerAresta(0,2);
         gd.imprimir();
         System.out.println();
+        //atividade 05
         System.out.println("esse grafo é um grafo completo?: "+gd.isCompleto());
         System.out.println("esse grafo é um grafo simples?: "+gd.isSimples());
         System.out.println("esse grafo é um grafo nulo?: "+gd.isNulo());
@@ -37,7 +39,7 @@ public class Main {
         gd2.adicionaArestas(2,3);
         gd2.adicionaArestas(2,4);
 
-
+        //atividade 06
         gd2.imprimir();
         System.out.println();
         System.out.println("subgrafo: "+ gd.isSubgrafo(gd2));

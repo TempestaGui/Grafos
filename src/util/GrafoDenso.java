@@ -9,7 +9,7 @@ public class GrafoDenso implements Grafo {
     private int numVertice;
     private int numAresta;
     private String[] rotulo;
-
+//atividade 04
     public GrafoDenso(int n){
         this.numVertice = n;
         this.numAresta = 0;
@@ -74,6 +74,29 @@ public class GrafoDenso implements Grafo {
     }
 
     @Override
+    public void imprimir() {
+        System.out.println();
+        System.out.println("Matriz de adjacência");
+        System.out.print("   ");
+        for(String r:rotulo){
+            System.out.print(r+" ");
+        }
+        System.out.println();
+        for(int i = 0; i < numVertice * 2.5; i++){
+            System.out.print("_");
+        }
+        System.out.println();
+        for(int i = 0; i < this.numVertice; i++){
+            System.out.print(rotulo[i]+" |");
+            for(int j = 0; j < this.numVertice; j++){
+                System.out.print(this.matrizAdj[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    //atividade 05
+    @Override
     public boolean isCompleto(){
         int formulaCompleto = (numVertice * (numVertice - 1)) / 2;
         return isSimples() && numAresta == formulaCompleto;
@@ -98,6 +121,7 @@ public class GrafoDenso implements Grafo {
         return true;
     }
 
+    //atividade 06
     @Override
      public ArrayList<String> getListaVertices (){
         ArrayList<String> listVertices = new ArrayList<>();
@@ -150,27 +174,4 @@ public class GrafoDenso implements Grafo {
         }
         return true;
     }
-
-
-    @Override
-                public void imprimir() {
-                    System.out.println();
-                    System.out.println("Matriz de adjacência");
-                    System.out.print("   ");
-                    for(String r:rotulo){
-                        System.out.print(r+" ");
-                    }
-                    System.out.println();
-                    for(int i = 0; i < numVertice * 2.5; i++){
-                        System.out.print("_");
-                    }
-                    System.out.println();
-                    for(int i = 0; i < this.numVertice; i++){
-                        System.out.print(rotulo[i]+" |");
-                        for(int j = 0; j < this.numVertice; j++){
-                            System.out.print(this.matrizAdj[i][j] + " ");
-                        }
-                        System.out.println();
-                    }
-                }
 }
