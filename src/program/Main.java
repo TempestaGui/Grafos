@@ -20,5 +20,9 @@ public class Main {
         System.out.println("Sequencia de graus: "+ Arrays.toString(gd.sequenciaDeGraus()));
         gd.removerAresta(0,2);
         gd.imprimir();
+
+        System.out.println("esse grafo é um grafo completo?: "+gd.isCompleto);
+        System.out.println("esse grafo é um grafo simples?: "+gd.isSimples);
+        System.out.println("esse grafo é um grafo nulo?: "+gd.isNulo);
     }
 }

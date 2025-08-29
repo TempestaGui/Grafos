@@ -14,4 +14,10 @@ public interface Grafo {
     void removerAresta(int u, int v);
 
     void imprimir();
+
+    boolean isSimples();
+
+    boolean isNulo();
+
+    boolean isCompleto();
 }

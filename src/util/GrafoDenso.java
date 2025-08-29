@@ -51,8 +51,6 @@ public class GrafoDenso implements Grafo {
         return graus;
     }
 
-
-
     @Override
     public void adicionaArestas(int u, int v) {
         if(u >= 0 && v >= 0 && u<this.numVertice && v < this.numVertice && u != v){
@@ -71,6 +69,33 @@ public class GrafoDenso implements Grafo {
             numAresta--;
             System.out.println("Aresta removida entre "+ rotulo[u] + " e "+ rotulo[v]);
         }
+    }
+
+    @Override
+    public boolean isCompleto(){
+        int formulaCompleto = (numVertice * (numeroDeVertices - 1)) / 2;
+        if(isSimples && formulaCompleto != numeroDeArestas){
+            return false
+        }
+        return true
+        }
+
+
+    @Override
+    public boolean isNulo(){
+        if(numAresta == 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isSimples(){
+            for(int i = 0; i<numVertice; i++){
+                     if (matrizAdj[i][i] == 0){
+                        return true
+                     }
+                     return false
     }
 
 
