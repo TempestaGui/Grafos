@@ -45,5 +45,10 @@ public class Main {
         System.out.println("subgrafo: "+ gd.isSubgrafo(gd2));
         System.out.println("subgrafo Gerador: "+ gd.isSubGrafoGerador(gd2));
         System.out.println("subGrafo Induzido: "+gd.isSubGrafoIduzido(gd2));
+
+        //atividade 07
+        System.out.println();
+
+        gd2.isGraficoIsomorfo(gd);
     }
 }

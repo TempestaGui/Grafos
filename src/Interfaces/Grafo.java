@@ -23,4 +23,7 @@ public interface Grafo {
     boolean isSubgrafo(Grafo grafo);
     boolean isSubGrafoGerador(Grafo grafo);
     boolean isSubGrafoIduzido(Grafo grafo);
+
+    //atividade 07
+    boolean isGraficoIsomorfo(Grafo grafo);
 }

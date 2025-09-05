@@ -2,26 +2,27 @@ package util;
 
 import Interfaces.Grafo;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class GrafoDenso implements Grafo {
     private int[][] matrizAdj;
     private int numVertice;
     private int numAresta;
     private String[] rotulo;
-//atividade 04
-    public GrafoDenso(int n){
+
+    //atividade 04
+    public GrafoDenso(int n) {
         this.numVertice = n;
         this.numAresta = 0;
         this.matrizAdj = new int[this.numVertice][this.numVertice];
         this.rotulo = new String[this.numVertice];
 
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             rotulo[i] = String.valueOf(i);
         }
     }
 
-    public GrafoDenso(String[] rotulo){
+    public GrafoDenso(String[] rotulo) {
         this.numVertice = rotulo.length;
         this.numAresta = 0;
         this.matrizAdj = new int[this.numVertice][this.numVertice];
@@ -55,21 +56,21 @@ public class GrafoDenso implements Grafo {
 
     @Override
     public void adicionaArestas(int u, int v) {
-        if(u >= 0 && v >= 0 && u<this.numVertice && v < this.numVertice && u != v){
+        if (u >= 0 && v >= 0 && u < this.numVertice && v < this.numVertice && u != v) {
             this.matrizAdj[u][v] = 1;
             this.matrizAdj[v][u] = 1;
             numAresta++;
-            System.out.println("Aresta adicionada entre "+ rotulo[u] + " e "+ rotulo[v]);
+            System.out.println("Aresta adicionada entre " + rotulo[u] + " e " + rotulo[v]);
         }
     }
 
     @Override
     public void removerAresta(int u, int v) {
-        if(this.matrizAdj[u][v] == 1){
+        if (this.matrizAdj[u][v] == 1) {
             this.matrizAdj[u][v] = 0;
             this.matrizAdj[v][u] = 0;
             numAresta--;
-            System.out.println("Aresta removida entre "+ rotulo[u] + " e "+ rotulo[v]);
+            System.out.println("Aresta removida entre " + rotulo[u] + " e " + rotulo[v]);
         }
     }
 
@@ -78,17 +79,17 @@ public class GrafoDenso implements Grafo {
         System.out.println();
         System.out.println("Matriz de adjacência");
         System.out.print("   ");
-        for(String r:rotulo){
-            System.out.print(r+" ");
+        for (String r : rotulo) {
+            System.out.print(r + " ");
         }
         System.out.println();
-        for(int i = 0; i < numVertice * 2.5; i++){
+        for (int i = 0; i < numVertice * 2.5; i++) {
             System.out.print("_");
         }
         System.out.println();
-        for(int i = 0; i < this.numVertice; i++){
-            System.out.print(rotulo[i]+" |");
-            for(int j = 0; j < this.numVertice; j++){
+        for (int i = 0; i < this.numVertice; i++) {
+            System.out.print(rotulo[i] + " |");
+            for (int j = 0; j < this.numVertice; j++) {
                 System.out.print(this.matrizAdj[i][j] + " ");
             }
             System.out.println();
@@ -97,15 +98,15 @@ public class GrafoDenso implements Grafo {
 
     //atividade 05
     @Override
-    public boolean isCompleto(){
+    public boolean isCompleto() {
         int formulaCompleto = (numVertice * (numVertice - 1)) / 2;
         return isSimples() && numAresta == formulaCompleto;
-        }
+    }
 
 
     @Override
-    public boolean isNulo(){
-        if(numAresta == 0){
+    public boolean isNulo() {
+        if (numAresta == 0) {
             return true;
         }
         return false;
@@ -123,9 +124,9 @@ public class GrafoDenso implements Grafo {
 
     //atividade 06
     @Override
-     public ArrayList<String> getListaVertices (){
+    public ArrayList<String> getListaVertices() {
         ArrayList<String> listVertices = new ArrayList<>();
-        for (int i = 0; i<numVertice; i++){
+        for (int i = 0; i < numVertice; i++) {
             listVertices.add(rotulo[i]);
         }
         return listVertices;
@@ -134,10 +135,10 @@ public class GrafoDenso implements Grafo {
     @Override
     public ArrayList<String> getListaArestas() {
         ArrayList<String> listArestas = new ArrayList<>();
-        for (int i = 0; i<numVertice; i++){
-            for (int j = 0; j < numVertice; j++){
-                if (matrizAdj[i][j] == 1){
-                    listArestas.add(rotulo[i]+"-"+rotulo[j]);
+        for (int i = 0; i < numVertice; i++) {
+            for (int j = 0; j < numVertice; j++) {
+                if (matrizAdj[i][j] == 1) {
+                    listArestas.add(rotulo[i] + "-" + rotulo[j]);
                 }
             }
         }
@@ -146,32 +147,99 @@ public class GrafoDenso implements Grafo {
 
     @Override
     public boolean isSubgrafo(Grafo grafo) {
-        if(!grafo.getListaVertices().containsAll(this.getListaVertices())) return false;
+        if (!grafo.getListaVertices().containsAll(this.getListaVertices())) return false;
         if (!grafo.getListaArestas().containsAll(this.getListaArestas())) return false;
         return true;
     }
 
     @Override
     public boolean isSubGrafoGerador(Grafo grafo) {
-        if(grafo.getListaVertices().containsAll(this.getListaVertices())) return true;
+        if (grafo.getListaVertices().containsAll(this.getListaVertices())) return true;
         return grafo.getListaArestas().containsAll(this.getListaArestas());
     }
 
     @Override
     public boolean isSubGrafoIduzido(Grafo grafo) {
-        if(!isSubgrafo(grafo)) return false;
+        if (!isSubgrafo(grafo)) return false;
         ArrayList<String> vertices = this.getListaArestas();
 
-        for(String v : vertices){
-            for(String u: vertices){
-                if(!v.equals(u)){
-                    String arestas = u +"-"+ v;
-                    if (grafo.getListaArestas().contains(arestas) && !this.getListaArestas().contains(arestas)){
+        for (String v : vertices) {
+            for (String u : vertices) {
+                if (!v.equals(u)) {
+                    String arestas = u + "-" + v;
+                    if (grafo.getListaArestas().contains(arestas) && !this.getListaArestas().contains(arestas)) {
                         return false;
                     }
                 }
             }
         }
         return true;
+    }
+
+    //atividade 07
+
+    @Override
+    public boolean isGraficoIsomorfo(Grafo grafo) {
+        // Etapa 1: checagem rápida
+        if (numeroDeArestas() != grafo.numeroDeArestas()) return false;
+        if (numeroDeVertices() != grafo.numeroDeVertices()) return false;
+
+        int[] grau1 = sequenciaDeGraus();
+        int[] grau2 = grafo.sequenciaDeGraus();
+        Arrays.sort(grau1);
+        Arrays.sort(grau2);
+        if (!Arrays.equals(grau1, grau2)) return false;
+
+        // Etapa 2: Permutar vértices do outro grafo
+        List<String> vertices1 = this.getListaVertices();
+        List<String> vertices2 = grafo.getListaVertices();
+
+        List<List<String>> todasPermutacoes = gerarPermutacao(vertices2);
+
+        for (List<String> permutacao : todasPermutacoes) {
+            Map<String, String> mapping = new HashMap<>();
+            for (int i = 0; i < vertices1.size(); i++) {
+                mapping.put(vertices1.get(i), permutacao.get(i));
+            }
+            if (checarSeMapeamentoPreservaAdjacencia(this, grafo, mapping)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checarSeMapeamentoPreservaAdjacencia(Grafo g1, Grafo g2, Map<String, String> mapping) {
+        List<String> arestas1 = g1.getListaArestas();
+        List<String> arestas2 = g2.getListaArestas();
+
+        for (String a : arestas1) {
+            String[] partes = a.split("-");
+            String u1 = partes[0], v1 = partes[1];
+            String u2 = mapping.get(u1), v2 = mapping.get(v1);
+
+            // Verifica se existe (u2,v2) ou (v2,u2)
+            if (!(arestas2.contains(u2 + "-" + v2) || arestas2.contains(v2 + "-" + u2))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private List<List<String>> gerarPermutacao(List<String> vertices) {
+        List<List<String>> resultado = new ArrayList<>();
+        permutar(vertices, 0, resultado);
+        return resultado;
+    }
+
+    private void permutar(List<String> list, int inicio, List<List<String>> resultado) {
+        if (inicio == list.size() - 1) {
+            resultado.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = inicio; i < list.size(); i++) {
+            Collections.swap(list, inicio, i);
+            permutar(list, inicio + 1, resultado);
+            Collections.swap(list, inicio, i);
+        }
     }
 }
