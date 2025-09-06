@@ -48,7 +48,9 @@ public class Main {
 
         //atividade 07
         System.out.println();
-
         gd2.isGraficoIsomorfo(gd);
+
+        //atividade 09
+        gd2.colorir(rotulo);
     }
 }

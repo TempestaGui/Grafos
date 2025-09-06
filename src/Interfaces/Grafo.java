@@ -26,4 +26,10 @@ public interface Grafo {
 
     //atividade 07
     boolean isGraficoIsomorfo(Grafo grafo);
+
+    //atividade 09
+    boolean isPodeColorir(int V, int[] cores, int c);
+    boolean colorirGrafo(int v, int[] cores, int max);
+    void colorir(String[] labels);
+
 }

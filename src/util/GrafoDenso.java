@@ -9,6 +9,7 @@ public class GrafoDenso implements Grafo {
     private int numVertice;
     private int numAresta;
     private String[] rotulo;
+    private List<List<Integer>> adjacencia;
 
     //atividade 04
     public GrafoDenso(int n) {
@@ -27,6 +28,10 @@ public class GrafoDenso implements Grafo {
         this.numAresta = 0;
         this.matrizAdj = new int[this.numVertice][this.numVertice];
         this.rotulo = rotulo;
+        adjacencia = new ArrayList<>();
+        for (int i = 0; i < this.numVertice; i++) {
+            adjacencia.add(new ArrayList<>());
+        }
     }
 
     @Override
@@ -240,6 +245,49 @@ public class GrafoDenso implements Grafo {
             Collections.swap(list, inicio, i);
             permutar(list, inicio + 1, resultado);
             Collections.swap(list, inicio, i);
+        }
+    }
+
+//atividade 09
+
+    @Override
+    public boolean isPodeColorir(int v, int[] cores, int c) {
+        for(int i = 0; i<numVertice; i++){
+            if(matrizAdj[v][i] == 1 && cores[i] == c){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean colorirGrafo(int v, int[] cores, int max) {
+        if(v == numVertice) return true;
+        for(int c = 1; c <= max; c++){
+            if(isPodeColorir(v, cores, c)){
+                cores[v] = c;
+                if(colorirGrafo(v+1, cores, max)){
+                    return true;
+                }
+                cores[v] = 0;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void colorir(String[] labels) {
+        int[] cores = new int[numVertice];
+        int max = numVertice;
+
+        if(colorirGrafo(0, cores, max)){
+            int maxCoresUsadas = Arrays.stream(cores).max().orElse(0);
+            System.out.println("O minimo de horarios necessarios: "+maxCoresUsadas);
+            for(int i = 0; i<numVertice; i++){
+                System.out.println("Aulas: "+labels[i]+" -> horario: "+cores[i]);
+            }
+        }else{
+            System.out.println("Nao foi possivel colorir os grafos");
         }
     }
 }
