@@ -1,6 +1,7 @@
 package util;
 
 import Interfaces.Grafo;
+import util.bellmanFord.Aresta;
 
 import java.util.*;
 
@@ -10,6 +11,7 @@ public class GrafoDenso implements Grafo {
     private int numAresta;
     private String[] rotulo;
     private List<List<Integer>> adjacencia;
+    private List<Aresta> arestas;
 
     //atividade 04
     public GrafoDenso(int n) {
@@ -252,8 +254,8 @@ public class GrafoDenso implements Grafo {
 
     @Override
     public boolean isPodeColorir(int v, int[] cores, int c) {
-        for(int i = 0; i<numVertice; i++){
-            if(matrizAdj[v][i] == 1 && cores[i] == c){
+        for (int i = 0; i < numVertice; i++) {
+            if (matrizAdj[v][i] == 1 && cores[i] == c) {
                 return false;
             }
         }
@@ -262,11 +264,11 @@ public class GrafoDenso implements Grafo {
 
     @Override
     public boolean colorirGrafo(int v, int[] cores, int max) {
-        if(v == numVertice) return true;
-        for(int c = 1; c <= max; c++){
-            if(isPodeColorir(v, cores, c)){
+        if (v == numVertice) return true;
+        for (int c = 1; c <= max; c++) {
+            if (isPodeColorir(v, cores, c)) {
                 cores[v] = c;
-                if(colorirGrafo(v+1, cores, max)){
+                if (colorirGrafo(v + 1, cores, max)) {
                     return true;
                 }
                 cores[v] = 0;
@@ -280,14 +282,64 @@ public class GrafoDenso implements Grafo {
         int[] cores = new int[numVertice];
         int max = numVertice;
 
-        if(colorirGrafo(0, cores, max)){
+        if (colorirGrafo(0, cores, max)) {
             int maxCoresUsadas = Arrays.stream(cores).max().orElse(0);
-            System.out.println("O minimo de horarios necessarios: "+maxCoresUsadas);
-            for(int i = 0; i<numVertice; i++){
-                System.out.println("Aulas: "+labels[i]+" -> horario: "+cores[i]);
+            System.out.println("O minimo de horarios necessarios: " + maxCoresUsadas);
+            for (int i = 0; i < numVertice; i++) {
+                System.out.println("Aulas: " + labels[i] + " -> horario: " + cores[i]);
             }
-        }else{
+        } else {
             System.out.println("Nao foi possivel colorir os grafos");
+        }
+    }
+
+
+    //atividade 5 segundo bi
+    //Algoritmo de Bellman-Ford
+
+    public void addArestaPeso(int origem, int destino, int peso) {
+        arestas.add(new Aresta(origem, destino, peso));
+    }
+
+    public void bellmanFord(int origem) {
+        int[] distancia = new int[numVertice];
+        Arrays.fill(distancia, Integer.MAX_VALUE);
+        distancia[origem] = 0;
+
+        //Passo 1 -> relaxar todas as arestas V-1 vezes
+        for (int i = 0; i < numVertice; i++) {
+            for (Aresta aresta : arestas) {
+                int u = aresta.getOrigem();
+                int v = aresta.getDestino();
+                int peso = aresta.getPeso();
+
+                if (distancia[u] != Integer.MAX_VALUE && distancia[u] + peso < distancia[v]) {
+                    distancia[v] = distancia[u] + peso;
+                }
+            }
+        }
+
+        //passo 2 -> verificar ciclos negativos
+        for (Aresta aresta : arestas) {
+            int u = aresta.getOrigem();
+            int v = aresta.getDestino();
+            int peso = aresta.getPeso();
+
+            if (distancia[u] != Integer.MAX_VALUE && distancia[u] + peso < distancia[v]) {
+                System.out.println("Grafo possui um ciclo de peso negativo");
+                return;
+            }
+        }
+        imprimirSolucaoBellmanFord(distancia, origem);
+    }
+
+    void imprimirSolucaoBellmanFord(int[] distancia, int origem) {
+        System.out.println("Vértice\t\tDistância");
+        for (int i = 0; i < numVertice; i++){
+            if (distancia[i] == Integer.MAX_VALUE)
+                System.out.println(i + "\t∞");
+            else
+                System.out.println(i + "\t\t\t" + distancia[i]);
         }
     }
 }

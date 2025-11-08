@@ -32,4 +32,8 @@ public interface Grafo {
     boolean colorirGrafo(int v, int[] cores, int max);
     void colorir(String[] labels);
 
+
+    //atividade 5 segundo bi
+    //Algoritmo de Bellman-Ford
+
 }
